@@ -1,0 +1,38 @@
+import numpy as np
+
+def gas_esperado(gas, dados_composição_estrela, temperatura_exoplaneta):
+  """
+  Calcula a fração molar esperada de um gás na atmosfera de um exoplaneta com base na composição da estrela hospedeira e na temperatura do exoplaneta.
+
+  Args:
+    gas: Nome do gás (por exemplo, 'CO2', 'O2', 'H2O').
+    dados_composição_estrela: Dicionário contendo a fração molar de cada elemento na estrela hospedeira.
+    temperatura_exoplaneta: Temperatura do exoplaneta em Kelvin.
+
+  Returns:
+    Fração molar esperada do gás na atmosfera do exoplaneta.
+  """
+
+  # Obter abundância solar do elemento que compõe o gás
+  if gas == 'CO2':
+    elemento = 'C'
+  elif gas == 'O2':
+    elemento = 'O'
+  elif gas == 'H2O':
+    elemento = 'H'
+  elif gas == 'CH4':
+    elemento = 'H4'
+  elif gas == 'C2H6':
+    elemento = '2H6'      
+  else:
+    raise ValueError(f"Gás inválido: {gas}")
+
+  abundancia_solar_elemento = dados_composição_estrela[elemento]
+
+  # Calcular fração molar esperada do gás com base no equilíbrio químico
+  # (implementação simplificada usando lei de Henry e constante de equilíbrio)
+  pressão_parcial_gas = pressão_total_exoplaneta * abundancia_solar_elemento
+  constante_equilibrio = np.exp(-delta_G_formacao_gas / (R * temperatura_exoplaneta))
+  fexpected = pressão_parcial_gas * constante_equilibrio
+
+  return fexpected

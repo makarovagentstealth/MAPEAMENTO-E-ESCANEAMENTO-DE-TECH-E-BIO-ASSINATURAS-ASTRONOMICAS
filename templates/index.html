@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOCALIZADOR DE BIO E TECH ASSINATURAS ASTRONOMICAS E ASTROFISICAS EM GHOSTRECON</title>
+    <style>
+        #oscilometro {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+    <div id="oscilometro">Carregando...</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const oscilometro = document.getElementById("oscilometro");
+
+            function fetchDataAndUpdateOscilometro() {
+                fetch('/api/celestial_data')
+                    .then(response => response.json())
+                    .then(data => updateOscilometro(data))
+                    .catch(error => console.error('Erro ao obter os dados:', error));
+            }
+
+            function updateOscilometro(data) {
+                oscilometro.textContent = `Objeto: ${data.object} - Aproximação: ${data.approximationValue}`;
+                if (data.approximationValue > 0) {
+                    oscilometro.style.color = "#0f0";  // Verde para aproximação positiva
+                } else {
+                    oscilometro.style.color = "#f00";  // Vermelho para aproximação negativa
+                }
+            }
+
+            fetchDataAndUpdateOscilometro();
+        });
+    </script>
+</body>
+</html>
